@@ -51,50 +51,22 @@
       <body>
          <input id="pac-input" class="controls" type="text" placeholder="Search Box">
          <div id="map"></div>
-         <script>
-         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-         function initAutocomplete() {
-           // Create the search box and link it to the UI element.
-           var input = document.getElementById('pac-input');
-           var searchBox = new google.maps.places.SearchBox(input);
-           // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-           // Bias the SearchBox results towards current map's viewport.
-           // map.addListener('bounds_changed', function() {
-           //   searchBox.setBounds(map.getBounds());
-           // });
-           var markers = [];
-           // Listen for the event fired when the user selects a prediction and retrieve
-           // more details for that place.
-           searchBox.addListener('places_changed', function() {
-             var places = searchBox.getPlaces();
-             if (places.length == 0) {
-               return;
-             }
-             // Clear out the old markers.
-             markers.forEach(function(marker) {
-               marker.setMap(null);
-             });
-             // For each place, get the icon, name and location.
-             var bounds = new google.maps.LatLngBounds();
-             map.fitBounds(bounds);
-           });
-         }
-         function plotRegion(geoJSONFile, map) {
-            console.log('in progress');
-         }
+       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc2i-6d-R264yOYJKm6h-TukyaTipf_bc&libraries=drawing,places&callback" type="text/javascript"></script>
 
+     <script src="jquery-3.3.1.js"></script>
+     <div id='mapview' style="width:350px; border-style:dotted;">
+        <h4>Search Region</h4>
+         <input type="radio" id="contactChoice1"
+         name="contact" value="state" checked="checked">
+         <label for="contactChoice1">State</label>
 
-       </script>
-       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc2i-6d-R264yOYJKm6h-TukyaTipf_bc&libraries=drawing,places&callback=initAutocomplete"
-     type="text/javascript"></script>
-     <form action="insert.php" method="post">
-               Name: <input type="text" name="username">
-               <br>
-               Email: <input type="text" name="email">
-               <br>
-               <input type="submit" value="insert">
-      </form>
+         <input type="radio" id="contactChoice2"
+         name="contact" value="county">
+         <label for="contactChoice2">County</label>
+
+    </div>
+    <div id="instructions"></div>
      </body>
 
 
@@ -109,4 +81,5 @@
 
    <script src="map.js"></script>
    </body>
+
 </html>
