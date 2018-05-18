@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Radio Spectrum</title>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+   <link rel="stylesheet" type="text/css" href="map.css">
+   <script type="text/javascript" src="map.js"></script>
+</head>
+
+<body>
+
+<!-- Sidebar/menu -->
+<!-- <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+  <div class="w3-container">
+    <h3 class="w3-padding-64"><b>UW EE Capstone<br>with T-mobile</b></h3>
+  </div>
+  <div class="w3-bar-block">
+    <a href="file:///C:/Users/Fizza/Desktop/test.html#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Spectrum Interface</a>
+    <a href="https://www.w3schools.com/html/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Tables</a>
+    <a href="file:///C:/Users/Fizza/Desktop/Map.html#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Map Interface</a>
+  </div>
+</nav> -->
+
+<!-- Top menu on small screens -->
+   <header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
+     <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()">☰</a>
+     <span>Company Name</span>
+   </header>
+
+   <!-- Overlay effect when opening sidebar on small screens -->
+   <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+
+
+  <!-- Header -->
+   <div class="w3-container" style="margin-top:80px" id="showcase">
+    <h1 class="w3-w3-xxxlarge"><b>Interactive 5G Spectrum Tool</b></h1>
+    <hr style="width:580px;border:2px solid red" class="w3-round">
+   </div>
+
+   <head>
+      <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+      <meta charset="utf-8">
+      <title>Places Searchbox</title>
+      <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        color: white;
+        background-color: #ff009f;
+      }
+      #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+
+      .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+      }
+
+      #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+      }
+
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      #target {
+        width: 345px;
+      }
+      </style>
+   </head>
+   <body>
+      <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+      <div id="map"></div>
+      <script>
+      // This example adds a search box to a map, using the Google Place Autocomplete
+      // feature. People can enter geographical searches. The search box will return a
+      // pick list containing a mix of places and predicted search terms.
+
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      function initAutocomplete() {
+         var myLatLng = {lat: 47.578793, lng: -122.165398};
+         var map = new google.maps.Map(document.getElementById('map'), {
+           zoom: 8,
+           center: {lat: 47.578793, lng: -122.165398}
+         });
+         var input = document.getElementById('pac-input');
+
+         var image = 'industry-icons/mobilephonetower.png';
+
+         var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">License KA001</h1>'+
+            '<div id="bodyContent">'+
+               '<ul>'+
+               	'<li><b>Band range:</b> 400-430 MHz</li>' +
+               	'<li><b>Sub-bands or channels:</b> 3x 10MHz </li> ' +
+               	'<li><b>Licensed or Unlicensed:</b> Licensed</li>' +
+               	'<li><b>Usage type:</b>  commercial</li>' +
+               	'<li><b>Users:</b>  T-Mobile Inc</li>'+
+               	'<li><b>Duplex Operation:</b>  TDD</li>'+
+               '</ul>'+
+            '</div>'+
+            '</div>';
+
+            var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: image,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+        plotPoints([myLatLng], map);
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+      }
+
+      function plotPoints(markers, map) {
+        var avgLat = 0.0, avgLng = 0.0;
+        var count = 0;
+        markers.forEach((marker) => {
+          count++;
+          avgLat += marker['lat'];
+          avgLng += marker['lng'];
+          console.log(avgLat, avgLng);
+          var image = 'industry-icons/mobilephonetower.png';
+          var marker = new google.maps.Marker({
+            position: marker,
+            map: map,
+            title: 'T-Mobile HQ',
+            icon: image
+          });
+        });
+        avgLat /= count;
+        avgLng /= count;
+      }
+
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc2i-6d-R264yOYJKm6h-TukyaTipf_bc&libraries=drawing,places&callback=initAutocomplete"
+  type="text/javascript"></script>
+  <form action="insert.php" method="post">
+            Name: <input type="text" name="username">
+            <br>
+            Email: <input type="text" name="email">
+            <br>
+            <input type="submit" value="insert">
+   </form>
+  </body>
+
+
+<!-- End page content -->
+<div> <a href="https://mapicons.mapsmarker.com" title ="Maps Icons Collection">Maps Icons Collection</a> </div>
+
+<!-- W3.CSS Container -->
+<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px">
+   <p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a>
+   </p>
+</div>
+
+</body>
+</html>

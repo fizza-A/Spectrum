@@ -3,13 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title> Select Example </title>
-
 </head>
-
 <body>
+
 <?php
 if ($_SERVER["REQUEST_METHOD"]=="POST") {
-$con =     mysqli_connect("localhost","root","","db_bands");
+$con =     mysqli_connect("localhost","root","fiza6863002#","db_bands");
 
 // Check connection
 if (mysqli_connect_errno())
@@ -33,23 +32,48 @@ echo "Licensee name: $company <br>";
 
 echo "<br> Results <br>";
 
-$sql = sprintf("SELECT * FROM bands_info WHERE Licensee LIKE '%%%s%%' OR (Radio_Service='%s' AND freqInputLower='%f' AND freqInputUpper='%f')",
-   mysqli_real_escape_string($con, $company), mysqli_real_escape_string($con, $RS), $start_freq, $end_freq);
-	
+$sql = sprintf("SELECT * FROM bands_info WHERE (`Licensee` LIKE '%%%s%%') AND (Radio_Service='%s' AND freqInputLower='%f' AND freqInputUpper='%f')", 
+  mysqli_real_escape_string($con, $company), mysqli_real_escape_string($con, $RS), $start_freq, $end_freq);
+
+#$sql = sprintf("SELECT * FROM bands_info WHERE (Radio_Service='%s' AND freqInputLower='%f' AND freqInputUpper='%f')", 
+#mysqli_real_escape_string($con, $RS), $start_freq, $end_freq);
+
 $results=mysqli_query($con,$sql);
-
-if(mysqli_num_rows($results)>0) {
-	while($row=mysqli_fetch_array($results)) {
-		echo $row[1]. " ".$row[2]." ".$row[3]." ".$row[4]." ".$row[5];
-		echo "<br>";
-	}
-}
-
-mysqli_close($con);
+if (!$results) {
+	die ('SQL Error: ' . mysqli_error($con));
 }
 ?>
-
-<form name="query" method="POST" action="bands.php">
+<h1>Table 1</h1>
+	<table class="data-table">
+		<caption class="title">Sales Data of Electronic Division</caption>
+		<thead>
+			<tr>
+				<th>NO</th>
+				<th>CUSTOMER</th>
+				<th>ITEM</th>
+				<th>DATE</th>
+				<th>AMOUNT</th>
+			</tr>
+		</thead>
+		<tbody>
+		
+		<?php
+		while($row=mysqli_fetch_array($results)) {
+		echo '<tr> 
+				<td>'.$row[1].'</td>
+				<td>'.$row[2].'</td>
+				<td>'.$row[3].'</td>
+				<td>'.$row[4].'</td>
+				<td>'.$row[5].'</td>
+			</tr>';
+		echo "<br>";
+		mysqli_close($con);
+		}
+		?>
+		</tbody>
+	</table>
+	
+<form name="query" method="POST" action"try.php" target="new.php">
 	<div style="float: left; width: 230px;"> <!-- Column 2 start --> 
 	<div><h3><label for="frequencyForm:freqInputLower">Frequency Range:</label></h3></div>
 	<div><input id="freqInputLower" type="text" name="freqInputLower" size="10" />
@@ -258,10 +282,7 @@ mysqli_close($con);
 	<option value="24 GHz Service - TZ">24 GHz Service - TZ</option>
 	<option value="Land Mobile Radiolocation - RS">Land Mobile Radiolocation - RS </option>
 </select> </div> <br />
-	<input type="submit" name="submit" value="Submit">							
-								
+	<input type="submit" name="submit" value="Submit">						
 </form>
-
 </body>
-
 </html>
