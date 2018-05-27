@@ -123,7 +123,6 @@
             });
             infoWindow.open(map, anchor);
         }, {passive: true});
-        // plotPoints([myLatLng], map);
     }
 
     // regions: list of GeoJSON Objects
@@ -144,50 +143,6 @@
 
     function plotLine(points, map) {
 
-    }
-
-    function plotPoints(markers, map) {
-        var avgLat = 0.0,
-            avgLng = 0.0;
-        var count = 0;
-        markers.forEach((marker) => {
-            count++;
-            avgLat += marker['lat'];
-            avgLng += marker['lng'];
-            console.log(avgLat, avgLng);
-            var image = 'industry-icons/mobilephonetower.png';
-            var marker = new google.maps.Marker({
-                position: marker,
-                map: map,
-                title: 'T-Mobile HQ',
-                icon: image
-            });
-            // Retrieve from SQL Database
-            var contentString = '<div id="content">' +
-                '<div id="siteNotice">' +
-                '</div>' +
-                '<h1 id="firstHeading" class="firstHeading">License KA001</h1>' +
-                '<div id="bodyContent">' +
-                '<ul>' +
-                '<li><b>Band range:</b> 400-430 MHz</li>' +
-                '<li><b>Sub-bands or channels:</b> 3x 10MHz </li> ' +
-                '<li><b>Licensed or Unlicensed:</b> Licensed</li>' +
-                '<li><b>Usage type:</b>  commercial</li>' +
-                '<li><b>Users:</b>  T-Mobile Inc</li>' +
-                '<li><b>Duplex Operation:</b>  TDD</li>' +
-                '</ul>' +
-                '</div>' +
-                '</div>';
-
-            var infowindow = new google.maps.InfoWindow({
-                content: contentString
-            });
-            marker.addListener('click', function() {
-                infowindow.open(map, marker);
-            });
-        });
-        avgLat /= count;
-        avgLng /= count;
     }
 
     function createInfo(sqlData) {

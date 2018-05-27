@@ -19,7 +19,7 @@
           if (mysqli_connect_errno()) {
               echo "Failed to connect to MySQL: " . mysqli_connect_error();
           } else {
-              echo "connection established <br>";
+              //echo "connection established <br>";
           }
 
           $RS         = $_POST["Radio_Service"];
@@ -27,18 +27,17 @@
           $end_freq   = $_POST["freqInputUpper"];
           $company    = $_POST["Licensee"];
 
-          $sql = sprintf("SELECT * FROM `bands_info` WHERE (`Licensee` LIKE '%%%s%%') AND (Radio_Service='%s' AND freqInputLower='%f' AND freqInputUpper='%f')", mysqli_real_escape_string($con, $company), mysqli_real_escape_string($con, $RS), $start_freq, $end_freq);
+          $sql = sprintf("SELECT * FROM bands_info WHERE (`Licensee` LIKE '%%%s%%') AND (freqInputLower='%f' AND freqInputUpper='%f')", mysqli_real_escape_string($con, $company),  $start_freq, $end_freq);
 
           $results = mysqli_query($con, $sql);
-          echo $results;
           if (!$results) {
               die('SQL Error: ' . mysqli_error($con));
           }
-          while ($row = mysqli_fetch_array($results)) {
-             if ($row[6] != '') {
-                $data_arr = array();
-             }
-          }
+          // echo json_encode($results->fetch_all(MYSQLI_ASSOC));
+          // while ($row = mysqli_fetch_array($results)) {
+          //    echo  $row[0]." ".$row[1]. " ".$row[2]." ".$row[3]." ".$row[4]." ".$row[6];
+          //   echo "<br>";
+          // }
       }
       ?>
                <!-- Top menu on small screens -->
@@ -69,67 +68,7 @@
          <div id="map"></div>
          <script>
             var map;
-            var usStates = [
-    { name: 'ALABAMA', abbreviation: 'AL'},
-    { name: 'ALASKA', abbreviation: 'AK'},
-    { name: 'AMERICAN SAMOA', abbreviation: 'AS'},
-    { name: 'ARIZONA', abbreviation: 'AZ'},
-    { name: 'ARKANSAS', abbreviation: 'AR'},
-    { name: 'CALIFORNIA', abbreviation: 'CA'},
-    { name: 'COLORADO', abbreviation: 'CO'},
-    { name: 'CONNECTICUT', abbreviation: 'CT'},
-    { name: 'DELAWARE', abbreviation: 'DE'},
-    { name: 'DISTRICT OF COLUMBIA', abbreviation: 'DC'},
-    { name: 'FEDERATED STATES OF MICRONESIA', abbreviation: 'FM'},
-    { name: 'FLORIDA', abbreviation: 'FL'},
-    { name: 'GEORGIA', abbreviation: 'GA'},
-    { name: 'GUAM', abbreviation: 'GU'},
-    { name: 'HAWAII', abbreviation: 'HI'},
-    { name: 'IDAHO', abbreviation: 'ID'},
-    { name: 'ILLINOIS', abbreviation: 'IL'},
-    { name: 'INDIANA', abbreviation: 'IN'},
-    { name: 'IOWA', abbreviation: 'IA'},
-    { name: 'KANSAS', abbreviation: 'KS'},
-    { name: 'KENTUCKY', abbreviation: 'KY'},
-    { name: 'LOUISIANA', abbreviation: 'LA'},
-    { name: 'MAINE', abbreviation: 'ME'},
-    { name: 'MARSHALL ISLANDS', abbreviation: 'MH'},
-    { name: 'MARYLAND', abbreviation: 'MD'},
-    { name: 'MASSACHUSETTS', abbreviation: 'MA'},
-    { name: 'MICHIGAN', abbreviation: 'MI'},
-    { name: 'MINNESOTA', abbreviation: 'MN'},
-    { name: 'MISSISSIPPI', abbreviation: 'MS'},
-    { name: 'MISSOURI', abbreviation: 'MO'},
-    { name: 'MONTANA', abbreviation: 'MT'},
-    { name: 'NEBRASKA', abbreviation: 'NE'},
-    { name: 'NEVADA', abbreviation: 'NV'},
-    { name: 'NEW HAMPSHIRE', abbreviation: 'NH'},
-    { name: 'NEW JERSEY', abbreviation: 'NJ'},
-    { name: 'NEW MEXICO', abbreviation: 'NM'},
-    { name: 'NEW YORK', abbreviation: 'NY'},
-    { name: 'NORTH CAROLINA', abbreviation: 'NC'},
-    { name: 'NORTH DAKOTA', abbreviation: 'ND'},
-    { name: 'NORTHERN MARIANA ISLANDS', abbreviation: 'MP'},
-    { name: 'OHIO', abbreviation: 'OH'},
-    { name: 'OKLAHOMA', abbreviation: 'OK'},
-    { name: 'OREGON', abbreviation: 'OR'},
-    { name: 'PALAU', abbreviation: 'PW'},
-    { name: 'PENNSYLVANIA', abbreviation: 'PA'},
-    { name: 'PUERTO RICO', abbreviation: 'PR'},
-    { name: 'RHODE ISLAND', abbreviation: 'RI'},
-    { name: 'SOUTH CAROLINA', abbreviation: 'SC'},
-    { name: 'SOUTH DAKOTA', abbreviation: 'SD'},
-    { name: 'TENNESSEE', abbreviation: 'TN'},
-    { name: 'TEXAS', abbreviation: 'TX'},
-    { name: 'UTAH', abbreviation: 'UT'},
-    { name: 'VERMONT', abbreviation: 'VT'},
-    { name: 'VIRGIN ISLANDS', abbreviation: 'VI'},
-    { name: 'VIRGINIA', abbreviation: 'VA'},
-    { name: 'WASHINGTON', abbreviation: 'WA'},
-    { name: 'WEST VIRGINIA', abbreviation: 'WV'},
-    { name: 'WISCONSIN', abbreviation: 'WI'},
-    { name: 'WYOMING', abbreviation: 'WY' }
-];
+
             function initMap() {
                var myLatLng = {
                    lat: 47.578793,
@@ -193,12 +132,75 @@
                    });
                    map.fitBounds(bounds);
                });
-
+               var results = <?php echo json_encode($results->fetch_all(MYSQLI_ASSOC))?>;
                var infoWindow = new google.maps.InfoWindow({
                    content: "",
                    pixelOffset: new google.maps.Size(0, 0)
                });
+               for (var i = 0; i < results.length; i++) {
+                  if (results[i]["State"] != "" && results[i]["State"] != "USA" && results[i]["State"] != "United States") {
+                     var url = 'https://raw.githubusercontent.com/glynnbird/usstatesgeojson/master/'+ results[i]["State"].toLowerCase() +'.geojson';
+                     var index = i;
+                     var info = results[index];
+                     console.log("Outside geoJSON");
+                     console.log(info);
+                     $.getJSON(url, function(data) {
+                        var info = results[index];
+                        console.log("Inside geoJSON");
+                        console.log(info);
+                         data['properties']['fcc'] = info;
+                         var features = map.data.addGeoJson(data);
+                         var state = data.properties['name'];
+                         var range = info['freqInputLower'] + '-' + info['freqInputUpper'] + " GHz";
+                         var contentString = '<div id="content">' +
+                             '<div id="siteNotice">' +
+                             '</div>' +
+                             '<h1 id="firstHeading" class="firstHeading">'+info["Call_sign"]+'</h1>' +
+                             '<div id="bodyContent">' +
+                             '<ul>' +
+                             '<li><b>Band range:</b> '+range+'</li>' +
+
+                             '<li><b>Licensee:</b> '+info["Licensee"]+'</li>' +
+                             '<li><b>Radio Serivce:</b> '+info["Radio_Service"]+'</li>' +
+                             '</ul>' +
+                             '</div>' +
+                             '</div>';
+                         // Setup event handler to remove GeoJSON features
+
+
+                     });
+                      map.data.addListener('click', function(event) {
+                        var info = event.feature.getProperty('fcc');
+                        console.log(info);
+                        var range = info['freqInputLower'] + '-' + info['freqInputUpper'] + " GHz";
+                        var contentString = '<div id="content">' +
+                           '<div id="siteNotice">' +
+                           '</div>' +
+                           '<h1 id="firstHeading" class="firstHeading">'+info["Call_sign"]+'</h1>' +
+                           '<div id="bodyContent">' +
+                           '<ul>' +
+                           '<li><b>Band range:</b> '+range+'</li>' +
+
+                           '<li><b>Licensee:</b> '+info["Licensee"]+'</li>' +
+                           '<li><b>Radio Serivce:</b> '+info["Radio_Service"]+'</li>' +
+                           '</ul>' +
+                           '</div>' +
+                           '</div>';
+                         // event.feature.setProperty('isColorful', true);
+                         // console.log(event.feature.getProperty());
+                         // infoWindow.setContent(contentString);
+                         // var anchor = new google.maps.MVCObject();
+                         // anchor.setValues({ //position of the point
+                         //     position: event.latLng,
+                         //     anchorPoint: new google.maps.Point(0, 0)
+                         // });
+                         // infoWindow.open(map, anchor);
+                     }, {passive: true});
+                     }
+               }
             }
+
+
          </script>
 
        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc2i-6d-R264yOYJKm6h-TukyaTipf_bc&libraries=drawing,places&callback=initMap" type="text/javascript"></script>
