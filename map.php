@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
       echo "Failed to connect to MySQL: " . mysqli_connect_error();
    }
    else {
-      echo "connection established <br>";
+      // echo "connection established <br>";
    }
 
    $region=$_POST["subject"];
@@ -29,7 +29,8 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
          		echo "<br>";
          	}
          }
+         echo $results;
 
          mysqli_close($con);
-         }
+}
 ?>

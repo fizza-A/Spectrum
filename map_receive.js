@@ -1,17 +1,5 @@
 'use strict';
 (
-   function getData() {
-     $.ajax({
-     url: "map_api_wrapper.php",
-     async: true,
-     dataType: 'json',
-     success: function (data) {
-       console.log(data);
-       //load map
-       init_map(data);
-     }
-   });
-}
 
    function() {
     window.onload = function() {
