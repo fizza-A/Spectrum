@@ -29,8 +29,7 @@ body {
 
 <?php
 if ($_SERVER["REQUEST_METHOD"]=="POST") {
-$con =     mysqli_connect("localhost","root","pizza","db_bands");
-// Check connection
+$con = mysqli_connect("localhost","daniel","HX7eCGaYG9yTQuen","db_bands");// Check connection
 if (mysqli_connect_errno())
   {
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -52,23 +51,27 @@ if (!$results) {
 	die ('SQL Error: ' . mysqli_error($con));
 }
 		while($row=mysqli_fetch_array($results)) {
-		echo .$row[1].;
-		echo '.$row[2].';
-		echo '.$row[3].';
-		echo '.$row[7].';
-		echo '.$row[8].';
-		echo '.$row[9].';
-		echo '.$row[10].';
-
 		echo '<tr>
 				<td>'.$row[0].'</td>
 				<td>'.$row[4].'</td>
 				<td>'.$row[5].'</td>
 				<td>'.$row[6].'</td>
 			</tr>';
+			$Lic=$row[7];
+			$fed=$row[8];
+			$gpp=$row[9];
+			$link=$row[10];
 		echo "<br>";
-
 		}
+		echo "Radio_Service";
+		echo $RS; echo "<br>"; echo "Upper frequency";
+		echo $start_freq; echo "<br> lower frequency";
+		echo $end_freq; echo "<br> Licensee status";
+		echo $Lic; echo "<br> Federal/non-Federal/both";
+		echo $fed; echo "<br> 3GPP association";
+		echo $gpp; echo "<br> hyperlink";
+		echo $link;
+		echo "<br>";
 		}
 
 		?>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
    <head>
       <title>Radio Spectrum</title>
       <meta charset="UTF-8">
@@ -27,7 +28,8 @@
           $end_freq   = $_POST["freqInputUpper"];
           $company    = $_POST["Licensee"];
 
-          $sql = sprintf("SELECT * FROM bands_info WHERE (`Licensee` LIKE '%%%s%%') AND (freqInputLower='%f' AND freqInputUpper='%f')", mysqli_real_escape_string($con, $company),  $start_freq, $end_freq);
+          $sql = sprintf("SELECT * FROM bands_info WHERE (`Licensee` LIKE '%%%s%%') AND (Radio_Service='%s' AND freqInputLower='%f' AND freqInputUpper='%f')",
+            mysqli_real_escape_string($con, $company), mysqli_real_escape_string($con, $RS), $start_freq, $end_freq);
 
           $results = mysqli_query($con, $sql);
           if (!$results) {
@@ -133,14 +135,16 @@
                    map.fitBounds(bounds);
                });
                var results = <?php echo json_encode($results->fetch_all(MYSQLI_ASSOC))?>;
+
                console.log(results);
                var infoWindow = new google.maps.InfoWindow({
                    content: "",
                    pixelOffset: new google.maps.Size(0, 0)
                });
                for (var i = 0; i < results.length; i++) {
-                  if (results[i]["State"] != "" && results[i]["State"] != "USA" && results[i]["State"] != "United States") {
+                  if (results[i]["State"] != "" && results[i]["State"] != "USA" && results[i]["State"] != "United States" && results[i]["State"] != "Washington DC" && results[i]["State"] != null) {
                      (function (i) {
+                        console.log(i);
                      var url = 'https://raw.githubusercontent.com/glynnbird/usstatesgeojson/master/'+ results[i]["State"].toLowerCase() +'.geojson';
                      var info = results[i];
                      $.getJSON(url, function(data) {
