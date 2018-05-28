@@ -133,70 +133,54 @@
                    map.fitBounds(bounds);
                });
                var results = <?php echo json_encode($results->fetch_all(MYSQLI_ASSOC))?>;
+               console.log(results);
                var infoWindow = new google.maps.InfoWindow({
                    content: "",
                    pixelOffset: new google.maps.Size(0, 0)
                });
                for (var i = 0; i < results.length; i++) {
                   if (results[i]["State"] != "" && results[i]["State"] != "USA" && results[i]["State"] != "United States") {
+                     (function (i) {
                      var url = 'https://raw.githubusercontent.com/glynnbird/usstatesgeojson/master/'+ results[i]["State"].toLowerCase() +'.geojson';
-                     var index = i;
-                     var info = results[index];
-                     console.log("Outside geoJSON");
-                     console.log(info);
+                     var info = results[i];
                      $.getJSON(url, function(data) {
-                        var info = results[index];
-                        console.log("Inside geoJSON");
-                        console.log(info);
                          data['properties']['fcc'] = info;
+
                          var features = map.data.addGeoJson(data);
-                         var state = data.properties['name'];
-                         var range = info['freqInputLower'] + '-' + info['freqInputUpper'] + " GHz";
-                         var contentString = '<div id="content">' +
-                             '<div id="siteNotice">' +
-                             '</div>' +
-                             '<h1 id="firstHeading" class="firstHeading">'+info["Call_sign"]+'</h1>' +
-                             '<div id="bodyContent">' +
-                             '<ul>' +
-                             '<li><b>Band range:</b> '+range+'</li>' +
-
-                             '<li><b>Licensee:</b> '+info["Licensee"]+'</li>' +
-                             '<li><b>Radio Serivce:</b> '+info["Radio_Service"]+'</li>' +
-                             '</ul>' +
-                             '</div>' +
-                             '</div>';
-                         // Setup event handler to remove GeoJSON features
-
-
                      });
-                      map.data.addListener('click', function(event) {
+                     // Setup event handler to remove GeoJSON features
+                     map.data.addListener('click', function(event) {
                         var info = event.feature.getProperty('fcc');
                         console.log(info);
-                        var range = info['freqInputLower'] + '-' + info['freqInputUpper'] + " GHz";
-                        var contentString = '<div id="content">' +
-                           '<div id="siteNotice">' +
-                           '</div>' +
-                           '<h1 id="firstHeading" class="firstHeading">'+info["Call_sign"]+'</h1>' +
-                           '<div id="bodyContent">' +
-                           '<ul>' +
-                           '<li><b>Band range:</b> '+range+'</li>' +
+                        var federal = info["Federal and/or Non-Federal"]
+                        const markup = `
+                         <div class="info">
+                            <h2>
+                                ${info.Call_sign}
+                            </h2>
+                            <ul>
+                               <li><b>Band range:</b> ${info.freqInputLower}-${info.infoFreqUpper}</li>
+                               <li><b>Licensee:</b> ${info.Licensee}</li>
+                               <li><b>Federal:</b> ${info["Federal and/or Non-Federal"]}</li>
+                               <li><b>Radio Serivce:</b> ${info.Radio_Service}</li>
+                               <li><b>Usage:</b> ${info.Usage}</li>
+                            </ul>
+                         </div>
+                        `;
+                        infoWindow.setContent(markup);
+                        var anchor = new google.maps.MVCObject();
+                        anchor.setValues({ //position of the point
+                           position: event.latLng,
+                           anchorPoint: new google.maps.Point(0, 0)
+                        });
+                        infoWindow.open(map, anchor);
+                    }, {passive: true});
 
-                           '<li><b>Licensee:</b> '+info["Licensee"]+'</li>' +
-                           '<li><b>Radio Serivce:</b> '+info["Radio_Service"]+'</li>' +
-                           '</ul>' +
-                           '</div>' +
-                           '</div>';
-                         // event.feature.setProperty('isColorful', true);
-                         // console.log(event.feature.getProperty());
-                         // infoWindow.setContent(contentString);
-                         // var anchor = new google.maps.MVCObject();
-                         // anchor.setValues({ //position of the point
-                         //     position: event.latLng,
-                         //     anchorPoint: new google.maps.Point(0, 0)
-                         // });
-                         // infoWindow.open(map, anchor);
-                     }, {passive: true});
-                     }
+                 })(i)
+                  }
+                  else if (results[i]["location"]) {
+                     console.log(results[i]["location"]);
+                  }
                }
             }
 

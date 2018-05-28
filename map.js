@@ -141,14 +141,6 @@
         });
     }
 
-    function plotLine(points, map) {
-
-    }
-
-    function createInfo(sqlData) {
-
-    }
-
 }());
 
 function w3_open() {
