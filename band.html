@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="band.css">
+
+<div id="uw">
+    <img src="uw_logo.png"/>
+</div>
+<div id="tmobile">
+<img src="t-mobile.png"/>
+</div>
+<title> Query Page </title>
+
+<form name="query" method="POST" action="band_table.php" >
+	<div style="float: left; width: 1000px;">
+	<div><h3>How to use Query tool:</h3>
+		<p>Step 1: Select Frequency band from canvas below by clicking on corresponding box  <br />
+		Step 2: If you want to look for lincenses of certain company, type in its name in lincensee field <br />
+		Step 3: Select one of the Radio Services.<br />
+		Step 4: Hit Submit button for query or reset button to refresh the form.<br /></p>
+	</div>
+	<hr/>
+
+	<div><h3><label for="frequencyForm:freqInputLower">Frequency Range GHz:</label></h3></div>
+	<div><input id="freqInputLower" type="text" name="freqInputLower" size="10" />
+	<span  style="margin-left:5px;margin-right:5px"></span><input id="freqInputUpper" type="text" name="freqInputUpper" size="10" />
+    </div><br/>
+
+		<body>
+			<canvas id="canvas" width="100" height="200" style="border:1px solid #d3d3d3 position: absolute top: 260px; left: 20px; border:2px solid purple"> </canvas>
+		</body>
+<script src="band.js"></script>
+
+	<div> <h3><Label for=Licensee">Licensee:</label></h3> <input type="text" name="Licensee"><br></div>
+    <div><h3><label for="frequencyForm:select2">Radio Service:</label></h3></div>
+	<div><select id="Radio_Service" name="Radio_Service" multiple="multiple" size="6" style="width:400px;" tabindex="13">
+
+
+</select> </div> <br/>
+
+   <input type="submit" value="Submit" onclick="this.form.target='_blank';return true;">
+   <input type="submit" value="Map View" onclick="query.action='map_receive.php';return true;">
+<body>
+
+</form>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-1.11.0.min.js"><\/script>')</script>
+    <script src="js/wow.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
