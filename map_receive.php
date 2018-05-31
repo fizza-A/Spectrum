@@ -131,23 +131,6 @@
                        }
                        console.log("added coordinates");
                        console.log(coordinates);
-                       var geojson = {
-                            "type":"FeatureCollection",
-                            "features":[
-                               {
-                                "type":"Feature",
-                                "geometry":{
-                                    "type":"Polygon",
-                                    "coordinates":coordinates
-                                },
-                                "properties":null
-                            }]
-                        };
-                        console.log("added geojson");
-                        console.log(geojson);
-                        var v = map.data.addGeoJson(geojson);
-                       console.log(array);
-                       console.log("coordinates");
                  })(i)
                  console.log(results[i]["location"]);
               }
@@ -155,7 +138,7 @@
         }
          </script>
          <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc2i-6d-R264yOYJKm6h-TukyaTipf_bc&libraries=drawing,places&callback=initMap" type="text/javascript"></script>
-         <script src="js/jquery-3.3.1.js"></script>
+         <script src="jquery-3.3.1.js"></script>
    </body>
    <!-- End page content -->
    <div> <a href="https://mapicons.mapsmarker.com" title ="Maps Icons Collection">Maps Icons Collection</a> </div>
