@@ -59,24 +59,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $link = $row[11];
         echo "<br>";
     }
-    echo "Radio_Service: ";
+    echo "<b>Search Criteria</b><br>";
+    echo "Radio Service: ";
     echo $RS;
     echo "<br>";
-    echo "Upper frequency: ";
+    echo "Upper Frequency: ";
     echo $start_freq;
-    echo "<br> lower frequency: ";
+    echo "<br> Lower Frequency: ";
     echo $end_freq;
-    echo "<br> Licensee status: ";
+    echo "<br> Licensee Status: ";
     echo $Lic;
-    echo "<br> Federal/non-Federal/both: ";
+    echo "<br> Federal/Non-Federal: ";
     echo $fed;
     echo "<br>  Division Duplex: ";
     echo $DD;
-    echo "<br> usage: ";
+    echo "<br> Usage: ";
     echo $usage;
-    echo "<br> 3GPP association: ";
+    echo "<br> 3GPP Association: ";
     echo $link;
-    echo "<br> link:  ";
+    echo "<br> Link:  ";
     echo "<br>";
 }
 ?>

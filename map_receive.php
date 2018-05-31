@@ -99,9 +99,11 @@
                         <ul>
                            <li><b>Band range:</b> ${info.freqInputLower}-${info.infoFreqUpper}</li>
                            <li><b>Licensee:</b> ${info.Licensee}</li>
-                           <li><b>Federal:</b> ${info["Federal and/or Non-Federal"]}</li>
+                           <li><b>Usage Rule:</b> ${info["Federal and/or Non-Federal"]}</li>
                            <li><b>Radio Serivce:</b> ${info.Radio_Service}</li>
                            <li><b>Usage:</b> ${info.Usage}</li>
+                           <li><b>Duplex Mode:</b> ${info["TDD or FDD"]}</li>
+                           <li><b>Licensed:</b> ${info["Unlicensed or Licensed"]}</li>
                         </ul>
                      </div>
                     `;
@@ -138,7 +140,7 @@
         }
          </script>
          <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc2i-6d-R264yOYJKm6h-TukyaTipf_bc&libraries=drawing,places&callback=initMap" type="text/javascript"></script>
-         <script src="jquery-3.3.1.js"></script>
+         <script src="js/jquery-3.3.1.js"></script>
    </body>
    <!-- End page content -->
    <div> <a href="https://mapicons.mapsmarker.com" title ="Maps Icons Collection">Maps Icons Collection</a> </div>
