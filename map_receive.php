@@ -97,7 +97,7 @@
                            ${info.Call_sign}
                         </h2>
                         <ul>
-                           <li><b>Band range:</b> ${info.freqInputLower}-${info.infoFreqUpper}</li>
+                           <li><b>Band range:</b> ${info.freqInputLower}-${info.freqInputUpper} GHz</li>
                            <li><b>Licensee:</b> ${info.Licensee}</li>
                            <li><b>Usage Rule:</b> ${info["Federal and/or Non-Federal"]}</li>
                            <li><b>Radio Serivce:</b> ${info.Radio_Service}</li>
@@ -122,19 +122,23 @@
               } else if (results[i]["location"]) {
                  (function(i) {
                        var array = results[i]["location"].split(/[\s|]+/);
+                       var coordinates_non_array = [];
                        var coordinates = [];
                        for (var j = 0; j < array.length; j++) {
                           array[j] = array[j].replace(/[{()}]/g, '');
                           var point = array[j].split(',').map(function(item) {
                              return parseFloat(item, 10);
                           });
+                          console.log("stripped");
+                          console.log(point);
                           var latlng = {lat: point[1], lng: point[0]};
                           coordinates.push(point);
                        }
                        console.log("added coordinates");
                        console.log(coordinates);
+                       console.log(results[i]["location"]);
                  })(i)
-                 console.log(results[i]["location"]);
+
               }
            }
         }
